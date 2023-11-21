@@ -18,32 +18,6 @@ app = Flask(__name__)
 print(os.environ['HOST'])
 app.register_blueprint(category_bp, url_prefix='/category')
 
-# @app.route('/category', methods=['POST'])
-# def createCategory():
-#     service = CategoryService()
-#     content_type = request.headers.get('Content-Type')
-#     if (content_type == 'application/json'):
-#         categoryDict = request.json
-#         try:
-#             uuid = service.save(categoryDict)
-#             json_dic = service.findById(uuid)
-#             response = app.response_class(
-#                 response= (json.dumps({"category id": str(uuid), "info":json_dic})),
-#                 status=201,
-#                 mimetype='application/json'
-#             )
-#         except ValidationException as e:
-#             response = app.response_class(
-#                 response = (json.dumps({"error":e.errors})),
-#                 status=400,
-#                 mimetype='application/json'
-#             )
-#         return response
-#     else:
-#         return 'Content-Type not supported!'
-
-
-
 @app.route('/customer', methods=['POST'])
 def createCustomer():
     service = CustomerService()
@@ -163,33 +137,7 @@ def createSupplier():
         return response
     else:
         return 'Content-Type not supported!'
-    
-# @app.route('/category/<id>', methods=['PUT'])
-# def updateCategory(id):
-#     service = CategoryService()
-#     content_type = request.headers.get('Content-Type')
-#     if (content_type == 'application/json'):
-#         categoryDict = request.json
-#         try:
-#             categoryDict["id"] = id
-#             service.update(categoryDict)
-#             json_dic = service.findById(id)
-#             response = app.response_class(
-#                 response=json.dumps(json_dic),
-#                 # response=id,
-#                 status=200,
-#                 mimetype='application/json'
-#             )
-#         except ValidationException as e:
-#             response = app.response_class(
-#                 response = (json.dumps({"error":e.errors})),
-#                 status=400,
-#                 mimetype='application/json'
-#             )
-#         return response
-#     else:
-#         return 'Content-Type not supported!'
-        
+          
 @app.route('/customer/<id>', methods=['PUT'])
 def updateCustomer(id):
     service = CustomerService()
@@ -292,25 +240,6 @@ def updateSupplier(id):
         return response
     else:
         return 'Content-Type not supported!'
-    
-# @app.route('/category/<id>', methods=['GET'])
-# def findCategory(id):
-#         service = CategoryService()
-#         try:
-#             json_dic = service.findById(id)
-#             response = app.response_class(
-#                 response= json.dumps(json_dic),
-#                 status=200,
-#                 mimetype='application/json'
-#             )
-#         except ValidationException as e:
-#             response = app.response_class(
-#                 response = (json.dumps({"error":e.errors})),
-#                 status=400,
-#                 mimetype='application/json'
-#             )
-
-#         return response
    
 @app.route('/customer/<id>', methods=['GET'])
 def findCustomer(id):
@@ -406,26 +335,7 @@ def findSupplier(id):
             )
 
         return response
-
-# @app.route('/category/<id>', methods=['DELETE'])
-# def deleteCategory(id):
-#         service = CategoryService()
-#         try:
-#             service.delete(id)
-#             response = app.response_class(
-#                 response= "Category was deleted",
-#                 status=200,
-#                 mimetype='application/json'
-#             )
-#         except ValidationException as e:
-#             response = app.response_class(
-#                 response = (json.dumps({"error":e.errors})),
-#                 status=400,
-#                 mimetype='application/json'
-#             )
-
-#         return response
-        
+       
 @app.route('/customer/<id>', methods=['DELETE'])
 def deleteCustomer(id):
         service = CustomerService()
