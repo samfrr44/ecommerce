@@ -4,10 +4,10 @@ from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
 from validationexceptions import ValidationException
+from validators.validator import OrderValidator
 
 from model import *
 
-# Base.metadata.create_all(bind=engine)
 
 
 class OrderRepository:
@@ -39,6 +39,7 @@ class OrderRepository:
     def delete(self, id):
         try:
             order = OrderRepository.session.query(Order).get(id)
+            OrderValidator.exist(self, order)
             OrderRepository.session.delete(order)
             OrderRepository.session.commit()
         except IntegrityError as e:

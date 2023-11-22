@@ -7,7 +7,6 @@ from validators.validator import CategoryValidator
 
 from model import *
 
-# Base.metadata.create_all(bind=engine)
 
 
 class CategoryRepository:

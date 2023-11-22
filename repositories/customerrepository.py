@@ -1,13 +1,12 @@
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from sqlalchemy import create_engine
-from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.orm.exc import UnmappedInstanceError
 from sqlalchemy.exc import IntegrityError
-from model import *
 from validationexceptions import ValidationException
-# Base.metadata.create_all(bind=engine)
+from validators.validator import CustomerValidator
+
+from model import *
+
 
 
 class CustomerRepository:
@@ -35,12 +34,11 @@ class CustomerRepository:
     def delete(self, id):
         try:
             customer = CustomerRepository.session.query(Customer).get(id)
+            CustomerValidator.exist(self, customer)
             CustomerRepository.session.delete(customer)
             CustomerRepository.session.commit()
-        except UnmappedInstanceError as e:
-            raise ValidationException("Could not delete customer",["Customer does not exist"])
         except IntegrityError as e:
-            raise ValidationException("Could not delete customer",["There is an order bound to the customer"])
+            raise ValidationException("Could not delete customer",["There is an order associated with this customer"])
 
     def findAll(self):
         customers = CustomerRepository.session.query(Customer).all()

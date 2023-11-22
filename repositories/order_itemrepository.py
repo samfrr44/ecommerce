@@ -2,12 +2,11 @@ from sqlalchemy.orm import sessionmaker
 import uuid
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm.exc import UnmappedInstanceError
 from validationexceptions import ValidationException
+from validators.validator import OrderItemValidator
 
 from model import *
 
-# Base.metadata.create_all(bind=engine)
 
 
 class OrderItemRepository:
@@ -36,12 +35,11 @@ class OrderItemRepository:
             raise ValidationException("Could not create order item",["Order item already exists"])
         
     def delete(self, id):
-        try:
-            orderitem = OrderItemRepository.session.query(OrderItem).get(id)
-            OrderItemRepository.session.delete(orderitem)
-            OrderItemRepository.session.commit()
-        except UnmappedInstanceError as e:           
-            raise ValidationException("Order item does not exist",[])
+        orderitem = OrderItemRepository.session.query(OrderItem).get(id)
+        OrderItemValidator.exist(self, orderitem)
+        OrderItemRepository.session.delete(orderitem)
+        OrderItemRepository.session.commit()
+
 
     def findById(self, id):
         orderitem = OrderItemRepository.session.query(OrderItem).get(id)

@@ -7,7 +7,6 @@ from validators.validator import SupplierValidator
 
 from model import *
 
-# Base.metadata.create_all(bind=engine)
 
 
 class SupplierRepository:

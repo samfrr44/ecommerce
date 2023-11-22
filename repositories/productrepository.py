@@ -3,10 +3,10 @@ import uuid
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
 from validationexceptions import ValidationException
+from validators.validator import ProductValidator
 
 from model import *
 
-# Base.metadata.create_all(bind=engine)
 
 
 class ProductRepository:
@@ -37,6 +37,7 @@ class ProductRepository:
     def delete(self, id):
         try:
             product = ProductRepository.session.query(Product).get(id)
+            ProductValidator.exist(self, product)
             ProductRepository.session.delete(product)
             ProductRepository.session.commit()
         except IntegrityError as e:
