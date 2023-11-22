@@ -3,6 +3,7 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from datetime import datetime 
 from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import UnmappedInstanceError
 from validationexceptions import ValidationException
 
@@ -28,20 +29,23 @@ class OrderRepository:
         OrderRepository.session = Session_()
 
     def save(self, order):
-        order.id = uuid.uuid4()
-        order.date = datetime.datetime.now()
-        OrderRepository.session.add(order)
-        OrderRepository.session.commit()
-        return order.id
+        try:
+            order.id = uuid.uuid4()
+            order.date = datetime.datetime.now()
+            OrderRepository.session.add(order)
+            OrderRepository.session.commit()
+            return order.id
+        except IntegrityError as e:
+            raise ValidationException("Could not create order",["Order already exists"])
 
     def delete(self, id):
         try:
             order = OrderRepository.session.query(Order).get(id)
             OrderRepository.session.delete(order)
             OrderRepository.session.commit()
-        except UnmappedInstanceError as e:
-            raise ValidationException("Order does not exist",[])
-        
+        except IntegrityError as e:
+            raise ValidationException("Error",["There is an order id(s) associated with this order"])
+              
     def findAll(self):
         orders = OrderRepository.session.query(Order).all()
         return orders

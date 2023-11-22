@@ -3,6 +3,7 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import UnmappedInstanceError
 from validationexceptions import ValidationException
 from validators.validator import SupplierValidator
 
@@ -37,10 +38,13 @@ class SupplierRepository:
             raise ValidationException("Could not create supplier",["Supplier already exists"])
 
     def delete(self, id):
-        supplier = SupplierRepository.session.query(Supplier).get(id)
-        SupplierValidator.exist(self, supplier)
-        SupplierRepository.session.delete(supplier)
-        SupplierRepository.session.commit()
+        try:
+            supplier = SupplierRepository.session.query(Supplier).get(id)
+            SupplierValidator.exist(self, supplier)
+            SupplierRepository.session.delete(supplier)
+            SupplierRepository.session.commit()
+        except IntegrityError as e:
+            raise ValidationException("Error",["There is a product(s) associated with this supplier"])
 
     def findById(self, id):
         supplier = SupplierRepository.session.query(Supplier).get(id)

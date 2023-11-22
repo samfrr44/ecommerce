@@ -3,6 +3,7 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import UnmappedInstanceError
 from validationexceptions import ValidationException
 from validators.validator import CategoryValidator
 
@@ -37,10 +38,13 @@ class CategoryRepository:
             raise ValidationException("Could not create category",["Category already exists"])
 
     def delete(self, id):
-        category = CategoryRepository.session.query(Category).get(id)
-        CategoryValidator.exist(self, category)
-        CategoryRepository.session.delete(category)
-        CategoryRepository.session.commit()
+        try:
+            category = CategoryRepository.session.query(Category).get(id)
+            CategoryValidator.exist(self, category)
+            CategoryRepository.session.delete(category)
+            CategoryRepository.session.commit()
+        except IntegrityError as e:
+            raise ValidationException("Error",["There is a product(s) associated with this category"])
 
     def findById(self, id):
         category = CategoryRepository.session.query(Category).get(id)

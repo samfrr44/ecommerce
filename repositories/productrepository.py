@@ -41,8 +41,8 @@ class ProductRepository:
             product = ProductRepository.session.query(Product).get(id)
             ProductRepository.session.delete(product)
             ProductRepository.session.commit()
-        except UnmappedInstanceError as e:           
-            raise ValidationException("Product does not exist",[])
+        except IntegrityError as e:
+            raise ValidationException("Error",["There is an order id(s) associated with this product"])
 
     def findById(self, id):
         product = ProductRepository.session.query(Product).get(id)
