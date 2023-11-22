@@ -1,5 +1,4 @@
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
