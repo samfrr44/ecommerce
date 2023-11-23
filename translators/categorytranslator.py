@@ -18,6 +18,8 @@ class CategoryTranslator:
 
     def toCategoryDict(self, category):
         categoryDict = {}
+        categoryDict["id"] = category.id
+        categoryDict["id"] = str(categoryDict["id"])
         categoryDict["name"] = category.name
         categoryDict["description"] = category.description
         return categoryDict
@@ -36,4 +38,3 @@ class CategoryTranslator:
         if "description" in categoryDict:
             category.description = categoryDict["description"]
         return category
-

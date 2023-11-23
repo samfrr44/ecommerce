@@ -39,11 +39,21 @@ def updateCategory(id):
     else:
         return 'Content-Type not supported!'
     
-@category_bp.route('/<id>', methods=['GET'])
-def findCategory(id):
+# @category_bp.route('/<id>', methods=['GET'])
+# def findCategory(id):
+#         service = CategoryService()
+#         try:
+#             json_dic = service.findById(id)
+#             response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
+#         except ValidationException as e:
+#             response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')
+#         return response
+
+@category_bp.route('/<name>', methods=['GET'])
+def findCategoryNamw(name):
         service = CategoryService()
         try:
-            json_dic = service.findById(id)
+            json_dic = service.findByName(name)
             response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
         except ValidationException as e:
             response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')

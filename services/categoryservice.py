@@ -26,6 +26,12 @@ class CategoryService:
         CategoryValidator.exist(self, category)
         categoryDict = CategoryService.translator.toCategoryDict(category)
         return categoryDict
+    
+    def findByName(self, name):
+        category = CategoryService.repository.findByName(name)
+        CategoryValidator.exist(self, category)
+        categoryDict = CategoryService.translator.toCategoriesToList(category)
+        return categoryDict
 
     def findAll(self):
         categories = CategoryService.repository.findAll()
