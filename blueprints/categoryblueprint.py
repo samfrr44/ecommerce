@@ -15,7 +15,7 @@ def createCategory():
         try:
             uuid = service.save(categoryDict)
             json_dic = service.findById(uuid)
-            response = Response(json.dumps({"category id": str(uuid), "info":json_dic}), status = 201, content_type ='application/json')
+            response = Response(json.dumps(json_dic), status = 201, content_type ='application/json')
         except ValidationException as e:
             response = Response(json.dumps({"error":e.errors}), status = 401, content_type ='application/json')
         return response
@@ -39,11 +39,21 @@ def updateCategory(id):
     else:
         return 'Content-Type not supported!'
     
-@category_bp.route('/<id>', methods=['GET'])
+@category_bp.route('/id/<id>', methods=['GET'])
 def findCategory(id):
         service = CategoryService()
         try:
             json_dic = service.findById(id)
+            response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
+        except ValidationException as e:
+            response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')
+        return response
+
+@category_bp.route('name/<name>', methods=['GET'])
+def findCategoryName(name):
+        service = CategoryService()
+        try:
+            json_dic = service.findByName(name)
             response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
         except ValidationException as e:
             response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')

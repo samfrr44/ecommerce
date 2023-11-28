@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 import uuid
-from datetime import datetime 
+from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
 from validationexceptions import ValidationException
@@ -29,7 +29,7 @@ class OrderRepository:
     def save(self, order):
         try:
             order.id = uuid.uuid4()
-            order.date = datetime.datetime.now()
+            order.date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             OrderRepository.session.add(order)
             OrderRepository.session.commit()
             return order.id
@@ -52,3 +52,8 @@ class OrderRepository:
     def findById(self, id):
         order = OrderRepository.session.query(Order).get(id)
         return order
+    
+    def findByCustomer(self, customer):
+        customer = self.session.query(Order).filter(Order.customer_id==customer).all()
+        OrderValidator.exist(self, customer)
+        return customer

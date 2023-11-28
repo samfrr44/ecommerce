@@ -15,7 +15,7 @@ def createOrderItem():
         try:
             uuid = service.save(orderitemDict)
             json_dic = service.findById(uuid)
-            response = Response(json.dumps({"order item id": str(uuid), "info":json_dic}), status = 201, content_type ='application/json')
+            response = Response(json.dumps(json_dic), status = 201, content_type ='application/json')
         except ValidationException as e:
             response = Response(json.dumps({"error":e.errors}), status = 401, content_type ='application/json')
         return response
@@ -39,11 +39,31 @@ def updateOrderItem(id):
     else:
         return 'Content-Type not supported!'
     
-@orderitem_bp.route('/<id>', methods=['GET'])
+@orderitem_bp.route('/id/<id>', methods=['GET'])
 def findOrderItem(id):
         service = OrderItemService()
         try:
             json_dic = service.findById(id)
+            response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
+        except ValidationException as e:
+            response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')
+        return response
+
+@orderitem_bp.route('/order_id/<id>', methods=['GET'])
+def findByOrder(id):
+        service = OrderItemService()
+        try:
+            json_dic = service.findByOrder(id)
+            response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
+        except ValidationException as e:
+            response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')
+        return response
+
+@orderitem_bp.route('/product_id/<id>', methods=['GET'])
+def findbByProduct(id):
+        service = OrderItemService()
+        try:
+            json_dic = service.findByProduct(id)
             response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
         except ValidationException as e:
             response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')

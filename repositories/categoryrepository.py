@@ -1,6 +1,7 @@
 from sqlalchemy.orm import sessionmaker
 import uuid
 from sqlalchemy import create_engine
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from validationexceptions import ValidationException
 from validators.validator import CategoryValidator
@@ -45,6 +46,10 @@ class CategoryRepository:
 
     def findById(self, id):
         category = CategoryRepository.session.query(Category).get(id)
+        return category
+    
+    def findByName(self, name):
+        category = self.session.query(Category).filter(Category.name==name).all()
         return category
 
     def findAll(self):

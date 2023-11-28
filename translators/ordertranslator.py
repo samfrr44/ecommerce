@@ -11,11 +11,14 @@ class OrderTranslator:
 
     def toOrder(self, orderDict):
         order = Order()
+        orderDict["id"] = order.id
         order.customer_id = orderDict["customer_id"]
         return order
 
     def toOrderDict(self, order):
         orderDict = {}
+        orderDict["id"] = order.id
+        orderDict["id"] = str(orderDict["id"])
         orderDict["date"] = order.date.isoformat()
         orderDict["customer_id"] = str(order.customer_id)
         return orderDict

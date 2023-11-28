@@ -11,21 +11,30 @@ class SupplierTranslator:
 
     def toSupplier(self, supplierDict):
         supplier = Supplier()
+        supplierDict["id"] = supplier.id
+        supplierDict["id"] = str(supplierDict["id"])
         supplier.name = supplierDict["name"]
         supplier.address = supplierDict["address"]
+        if "address2" in supplierDict:
+            supplier.address2 = supplierDict["address2"]
         supplier.city = supplierDict["city"]
         supplier.zipcode = supplierDict["zipcode"]
         supplier.country = supplierDict["country"]
+        supplier.email = supplierDict["email"]
         supplier.phone = supplierDict["phone"]
         return supplier
 
     def toSupplierDict(self, supplier):
         supplierDict = {}
+        supplierDict["id"] = supplier.id
+        supplierDict["id"] = str(supplierDict["id"])
         supplierDict["name"] = supplier.name
         supplierDict["address"] = supplier.address
+        supplierDict["address2"] = supplier.address2
         supplierDict["city"] = supplier.city
         supplierDict["zipcode"] = supplier.zipcode
         supplierDict["country"] = supplier.country
+        supplierDict["email"] = supplier.email
         supplierDict["phone"] = supplier.phone
         return supplierDict
     
