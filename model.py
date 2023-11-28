@@ -1,22 +1,16 @@
-import datetime
+from sqlalchemy import ForeignKey, Integer, String, DateTime, Float, UniqueConstraint, create_engine
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
-import uuid
 from typing import List
-from typing import Optional
-from sqlalchemy import ForeignKey
-from sqlalchemy import Integer, String, DateTime
-from sqlalchemy import Float
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
-from sqlalchemy.orm import registry
-from sqlalchemy import UniqueConstraint
+import uuid
 
 
 class Base(DeclarativeBase):
     pass
 
+connection_str = "postgresql://postgres:admin@localhost:5432/company"
+dbschema = "ecommerce"
+engine = create_engine(connection_str, echo=True, execution_options= {"schema_translate_map": {None:"ecommerce"}})
 
 class Category(Base):
     __tablename__ = "category"
@@ -40,9 +34,11 @@ class Supplier(Base):
     )
     name: Mapped[str] = mapped_column(String(30), unique = True)
     address: Mapped[str]
+    address2: Mapped[str]
     city: Mapped[str]
     zipcode: Mapped[str] = mapped_column(Integer)
     country: Mapped[str]
+    email: Mapped[str]
     phone: Mapped[str]
     products: Mapped[List["Product"]] = relationship(
         back_populates="supplier", lazy=True
@@ -57,12 +53,16 @@ class Customer(Base):
     id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    name: Mapped[str] = mapped_column(String(30))
+    fname: Mapped[str] = mapped_column("first name", String(30))
+    lname: Mapped[str] = mapped_column("last name", String(30))
     address: Mapped[str]
+    address2: Mapped[str]
     city: Mapped[str]
     zipcode: Mapped[str] = mapped_column(Integer)
     country: Mapped[str]
+    email: Mapped[str]
     phone: Mapped[str]
+    __table_args__ = (UniqueConstraint(fname,lname,"address","address2","city","zipcode","country","email","phone", name ="uix_customer"),)
     orders: Mapped[List["Order"]] = relationship(
         back_populates="customer", lazy=True
     )
@@ -117,6 +117,9 @@ class OrderItem(Base):
     product_id: Mapped[UUID(as_uuid=True)] = mapped_column(ForeignKey("product.id"))
     order: Mapped["Order"] = relationship(back_populates="orderItems")
     product: Mapped["Product"] = relationship(back_populates="orderItems")
-    UniqueConstraint("order_id", "product_id", name="uix_orderproduct")
+    __table_args__ = (UniqueConstraint("order_id", "product_id", name="uix_orderproduct"),)
     def __repr__(self) -> str:
         return f"product(id={self.id!r}, quantity={self.quantity!r})"
+
+
+Base.metadata.create_all(bind=engine)
