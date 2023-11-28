@@ -16,7 +16,7 @@ class OrderRepository:
 
     def __init__(self):
         print("Data1 Constructor")
-        OrderRepository.count += 1
+        OrderRepository.count += 2
         engine = create_engine(
             "postgresql://postgres:admin@localhost:5432/company",
             echo=True,
