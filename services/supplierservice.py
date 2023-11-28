@@ -26,6 +26,12 @@ class SupplierService:
         SupplierValidator.exist(self, supplier)
         supplierDict = SupplierService.translator.toSupplierDict(supplier)
         return supplierDict
+    
+    def findByName(self, name):
+        supplier = SupplierService.repository.findByName(name)
+        SupplierValidator.exist(self, supplier)
+        supplierDict = SupplierService.translator.toSuppliersToList(supplier)
+        return supplierDict
 
     def findAll():
         suppliers = SupplierService.repository.findById(id)

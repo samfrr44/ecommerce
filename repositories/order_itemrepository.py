@@ -44,6 +44,14 @@ class OrderItemRepository:
     def findById(self, id):
         orderitem = OrderItemRepository.session.query(OrderItem).get(id)
         return orderitem
+    
+    def findByOrder(self, id):
+        orderitem = OrderItemRepository.session.query(OrderItem).filter(OrderItem.order_id==id).all()
+        return orderitem
+    
+    def findByProduct(self, id):
+        orderitem = OrderItemRepository.session.query(OrderItem).filter(OrderItem.product_id==id).all()
+        return orderitem
 
     def findAll():
         orders = OrderItemRepository.session.query(OrderItem).all()

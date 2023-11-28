@@ -11,6 +11,8 @@ class ProductTranslator:
 
     def toProduct(self, productDict):
         product = Product()
+        productDict["id"] = product.id
+        productDict["id"] = str(productDict["id"])
         product.name = productDict["name"]
         product.unit = productDict["unit"]
         product.price = productDict["price"]
@@ -20,6 +22,8 @@ class ProductTranslator:
 
     def toProductDict(self, product):
         productDict = {}
+        productDict["id"] = product.id
+        productDict["id"] = str(productDict["id"])
         productDict["name"] = product.name
         productDict["unit"] = product.unit
         productDict["price"] = product.price

@@ -15,7 +15,7 @@ def createCustomer():
         try:
             uuid = service.save(customerDict)
             json_dic = service.findById(uuid)
-            response = Response(json.dumps({"customer id": str(uuid), "info":json_dic}), status = 201, content_type ='application/json')
+            response = Response(json.dumps(json_dic), status = 201, content_type ='application/json')
         except ValidationException as e:
             response = Response(json.dumps({"error":e.errors}), status = 401, content_type ='application/json')
         return response
@@ -39,11 +39,41 @@ def updateCustomer(id):
     else:
         return 'Content-Type not supported!'
     
-@customer_bp.route('/<id>', methods=['GET'])
+@customer_bp.route('/id/<id>', methods=['GET'])
 def findCustomer(id):
         service = CustomerService()
         try:
             json_dic = service.findById(id)
+            response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
+        except ValidationException as e:
+            response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')
+        return response
+
+@customer_bp.route('/name/<name>', methods=['GET'])
+def findCustomerName(name):
+        service = CustomerService()
+        try:
+            json_dic = service.findByName(name)
+            response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
+        except ValidationException as e:
+            response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')
+        return response
+
+@customer_bp.route('/city/<city>', methods=['GET'])
+def findCustomerCity(city):
+        service = CustomerService()
+        try:
+            json_dic = service.findByCity(city)
+            response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
+        except ValidationException as e:
+            response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')
+        return response
+
+@customer_bp.route('/country/<country>', methods=['GET'])
+def findCustomerCountry(country):
+        service = CustomerService()
+        try:
+            json_dic = service.findByCountry(country)
             response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
         except ValidationException as e:
             response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')

@@ -15,14 +15,14 @@ def createOrder():
         try:
             uuid = service.save(orderDict)
             json_dic = service.findById(uuid)
-            response = Response(json.dumps({"order  id": str(uuid), "info":json_dic}), status = 201, content_type ='application/json')
+            response = Response(json.dumps(json_dic), status = 201, content_type ='application/json')
         except ValidationException as e:
             response = Response(json.dumps({"error":e.errors}), status = 401, content_type ='application/json')
         return response
     else:
         return 'Content-Type not supported!'
     
-@order_bp.route('/<id>', methods=['GET'])
+@order_bp.route('/id/<id>', methods=['GET'])
 def findOrder(id):
         service = OrderService()
         try:
@@ -31,6 +31,17 @@ def findOrder(id):
         except ValidationException as e:
             response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')
         return response
+
+@order_bp.route('/customer_id/<id>', methods=['GET'])
+def findbyCustomer(id):
+        service = OrderService()
+        try:
+            json_dic = service.findByCustomer(id)
+            response = Response(json.dumps(json_dic), status=200, mimetype='application/json')
+        except ValidationException as e:
+            response = Response(json.dumps({"error":e.errors}), status=400, mimetype='application/json')
+        return response
+
 
 @order_bp.route('/<id>', methods=['DELETE'])
 def deleteOrder(id):

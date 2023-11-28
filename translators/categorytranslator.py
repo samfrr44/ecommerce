@@ -12,6 +12,8 @@ class CategoryTranslator:
 
     def toCategory(self, categoryDict):
         category = Category()
+        categoryDict["id"] = category.id
+        categoryDict["id"] = str(categoryDict["id"])
         category.name = categoryDict["name"]
         category.description = categoryDict["description"]
         return category

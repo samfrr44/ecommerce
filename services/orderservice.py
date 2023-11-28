@@ -27,6 +27,12 @@ class OrderService:
         orderDict = OrderService.translator.toOrderDict(order)
         return orderDict
 
+    def findByCustomer(self, customer):
+        order = OrderService.repository.findByCustomer(customer)
+        OrderValidator.exist(self, order)
+        orderDict = OrderService.translator.toOrdersToList(order)
+        return orderDict
+
     def findAll():
         orders = OrderService.repository.findAll()
         orderList = OrderService.translator.toOrdersToList(orders)

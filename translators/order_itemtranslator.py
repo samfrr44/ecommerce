@@ -11,6 +11,8 @@ class OrderItemTranslator:
 
     def toOrderItem(self, orderitemDict):
         orderitem = OrderItem()
+        orderitemDict["id"] = orderitem.id
+        orderitemDict["id"] = str(orderitemDict["id"])
         orderitem.quantity = orderitemDict["quantity"]
         orderitem.order_id = orderitemDict["order_id"]
         orderitem.product_id = orderitemDict["product_id"]
@@ -18,6 +20,8 @@ class OrderItemTranslator:
 
     def toOrderItemDict(self, orderitem):
         orderitemDict = {}
+        orderitemDict["id"] = orderitem.id
+        orderitemDict["id"] = str(orderitemDict["id"])
         orderitemDict["quantity"] = orderitem.quantity
         orderitemDict["order_id"] = orderitem.order_id
         orderitemDict["order_id"] = str(orderitemDict["order_id"])

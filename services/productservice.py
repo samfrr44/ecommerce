@@ -26,6 +26,11 @@ class ProductService:
         ProductValidator.exist(self, product)
         productDict = ProductService.translator.toProductDict(product)
         return productDict
+    
+    def findByName(self, name):
+        products = ProductService.repository.findByName(name)
+        productList = ProductService.translator.toProductsToList(products)
+        return productList
 
     def findAll():
         products = ProductService.repository.findById(id)

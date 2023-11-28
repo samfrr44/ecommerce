@@ -27,6 +27,18 @@ class OrderItemService:
         orderitemDict = OrderItemService.translator.toOrderItemDict(orderitem)
         return orderitemDict
 
+    def findByOrder(self, id):
+        orderitem = OrderItemService.repository.findByOrder(id)
+        OrderItemValidator.exist(self, orderitem)
+        orderitemDict = OrderItemService.translator.toOrderItemsToList(orderitem)
+        return orderitemDict
+    
+    def findByProduct(self, id):
+        orderitem = OrderItemService.repository.findByProduct(id)
+        OrderItemValidator.exist(self, orderitem)
+        orderitemDict = OrderItemService.translator.toOrderItemsToList(orderitem)
+        return orderitemDict
+       
     def findAll():
         orderitems = OrderItemService.repository.findAll()
         orderitemList = OrderItemService.translator.toOrderItemsToList(orderitems)

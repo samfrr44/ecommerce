@@ -46,6 +46,10 @@ class ProductRepository:
     def findById(self, id):
         product = ProductRepository.session.query(Product).get(id)
         return product
+    
+    def findByName (self,name):
+        product = ProductRepository.session.query(Product).filter(Product.name==name).all()
+        return product
 
     def findAll():
         products = ProductRepository.session.query(Product).all()

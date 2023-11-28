@@ -46,6 +46,11 @@ class SupplierRepository:
     def findById(self, id):
         supplier = SupplierRepository.session.query(Supplier).get(id)
         return supplier
+    
+    def findByName(self, name):
+        supplier = self.session.query(Supplier).filter(Supplier.name==name).all()
+        SupplierValidator.exist(self, supplier)
+        return supplier
 
     def findAll():
         suppliers = SupplierRepository.session.query(Supplier).all()

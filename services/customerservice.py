@@ -20,13 +20,34 @@ class CustomerService:
         return CustomerService.repository.save(customer)
 
     def delete(self, id):
-        # CustomerValidator.exist(self, id)
         CustomerService.repository.delete(id)
 
     def findById(self, id):
         customer = CustomerService.repository.findById(id)
         CustomerValidator.exist(self, customer)
         customerDict = CustomerService.translator.toCustomerDict(customer)
+        return customerDict
+    
+    def findByName(self, name):
+        customer = CustomerService.repository.findByName(name)
+        CustomerValidator.exist(self, customer)
+        customerDict = CustomerService.translator.toCustomersToList(customer)
+        return customerDict
+    
+    def findByCity(self, city):
+        customer = CustomerService.repository.findByCity(city)
+        CustomerValidator.exist(self, customer)
+        customerDict = CustomerService.translator.toCustomersToList(customer)
+        if not customerDict:
+            return "no customers"
+        return customerDict
+    
+    def findByCountry(self, city):
+        customer = CustomerService.repository.findByCountry(city)
+        CustomerValidator.exist(self, customer)
+        customerDict = CustomerService.translator.toCustomersToList(customer)
+        if not customerDict:
+            return "no customers"
         return customerDict
 
     def findAll(self):

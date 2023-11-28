@@ -17,7 +17,7 @@ class CategoryValidator:
             raise ValidationException("Required Fields", list)
         
     def exist(self, category):
-        if category is None:
+        if category is None or not category:
             raise ValidationException("Error", ["Category does not exist"])
 
 class CustomerValidator:
@@ -29,8 +29,8 @@ class CustomerValidator:
     def validate(self, customer):
         list = []
 
-        if customer.get("name") == None or len(customer["name"]) == 0:
-            list.append("Name is required")
+        if customer.get("first name") == None or len(customer["first name"]) == 0:
+            list.append("First name is required")
         if customer.get("address") == None or len(customer["address"]) == 0:
             list.append("Address is required")
         if customer.get("city") == None or len(customer["city"]) == 0:
@@ -39,16 +39,16 @@ class CustomerValidator:
             list.append("Zipcode is required")
         if customer.get("country") == None or len(customer["country"]) == 0:
             list.append("Country is required")
-        if customer.get("phone") == None or customer["phone"] == 0:
-            list.append("Phone format must be 999.999.9999")
+        if customer.get("email") == None or len(customer["email"]) == 0:
+            list.append("Email is required")
         if len(list) > 0:
             raise ValidationException("Required Fields", list)
         
     def exist(self, customer):
         list = []
 
-        if customer is None:
-            list.append("Customer does not exist")
+        if customer is None or not customer:
+            list.append("Customer(s) do not exist")
         if len(list) > 0:
             raise ValidationException("Error", list)
         
@@ -64,7 +64,7 @@ class OrderValidator:
             raise ValidationException("Required Fields", ["Customer ID is rquired"])
         
     def exist(self, order):
-        if order is None:
+        if order is None or not order:
             raise ValidationException("Error", ["Order does not exist"])
         
 class OrderItemValidator:
@@ -86,7 +86,7 @@ class OrderItemValidator:
             raise ValidationException("Required Fields", list)
 
     def exist(self, orderitem):
-        if orderitem is None:
+        if orderitem is None or not orderitem:
             raise ValidationException("Error", ["Order item does not exist"])
         
 class ProductValidator:
@@ -114,7 +114,7 @@ class ProductValidator:
     def exist(self, product):
         list = []
 
-        if product is None:
+        if product is None or not product:
             list.append("Product does not exist")
         if len(list) > 0:
             raise ValidationException("Error", list)
@@ -147,7 +147,7 @@ class SupplierValidator:
     def exist(self, supplier):
         list = []
 
-        if supplier is None:
+        if supplier is None or not supplier:
             list.append("Supplier does not exist")
         if len(list) > 0:
             raise ValidationException("Error", list)
