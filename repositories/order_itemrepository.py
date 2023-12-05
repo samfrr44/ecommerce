@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
 from validationexceptions import ValidationException
 from validators.validator import OrderItemValidator
-
+import os
 from model import *
 
 
@@ -15,9 +15,14 @@ class OrderItemRepository:
 
     def __init__(self):
         print("Data1 Constructor")
+        DB_USER=os.getenv("DB_USER")
+        DB_PWD=os.getenv("DB_PWD")
+        DB_HOST=os.getenv("DB_HOST")
+        DB_PORT=os.getenv("DB_PORT")
+        DB_NAME=os.getenv("DB_NAME")
         OrderItemRepository.count += 1
         engine = create_engine(
-            "postgresql://postgres:admin@localhost:5432/company",
+            "postgresql://"+DB_USER+":"+DB_PWD+"@"+DB_HOST+":"+DB_PORT+"/"+DB_NAME+"",
             echo=True,
             execution_options={"schema_translate_map": {None: "ecommerce"}},
         )
