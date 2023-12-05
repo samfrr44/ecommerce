@@ -5,6 +5,7 @@ from blueprints.order_itemblueprint import orderitem_bp
 from blueprints.orderblueprint import order_bp
 from blueprints.productblueprint import product_bp
 from blueprints.supplierblueprint import supplier_bp
+import os
 
 
 app = Flask(__name__)
