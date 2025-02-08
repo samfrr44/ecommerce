@@ -6,7 +6,7 @@ import json
 
 order_bp = Blueprint('order_bp', __name__)
 
-@order_bp.route('/', methods=['POST'])
+@order_bp.route('/order', methods=['POST'])
 def createOrder():
     service = OrderService()
     content_type = request.headers.get('Content-Type')

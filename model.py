@@ -3,12 +3,20 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
 from typing import List
 import uuid
+import os
 
 
 class Base(DeclarativeBase):
     pass
 
-connection_str = "postgresql://postgres:admin@localhost:5432/company"
+DB_USER=os.getenv("DB_USER")
+DB_PWD=os.getenv("DB_PWD")
+DB_HOST=os.getenv("DB_HOST")
+DB_PORT=os.getenv("DB_PORT")
+DB_NAME=os.getenv("DB_NAME")
+
+connection_str = "postgresql://"+DB_USER+":"+DB_PWD+"@"+DB_HOST+":"+DB_PORT+"/"+DB_NAME+""
+
 dbschema = "ecommerce"
 engine = create_engine(connection_str, echo=True, execution_options= {"schema_translate_map": {None:"ecommerce"}})
 

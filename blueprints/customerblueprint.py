@@ -6,7 +6,7 @@ import json
 
 customer_bp = Blueprint('customer_bp', __name__)
 
-@customer_bp.route('/', methods=['POST'])
+@customer_bp.route('/customer', methods=['POST'])
 def createCustomer():
     service = CustomerService()
     content_type = request.headers.get('Content-Type')

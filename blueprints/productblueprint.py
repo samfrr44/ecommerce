@@ -6,7 +6,7 @@ import json
 
 product_bp = Blueprint('product_bp', __name__)
 
-@product_bp.route('/', methods=['POST'])
+@product_bp.route('/product', methods=['POST'])
 def createProduct():
     service = ProductService()
     content_type = request.headers.get('Content-Type')

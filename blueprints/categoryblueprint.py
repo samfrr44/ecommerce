@@ -6,7 +6,7 @@ import json
 
 category_bp = Blueprint('category_bp', __name__)
 
-@category_bp.route('/', methods=['POST'])
+@category_bp.route('/category', methods=['POST'])
 def createCategory():
     service = CategoryService()
     content_type = request.headers.get('Content-Type')

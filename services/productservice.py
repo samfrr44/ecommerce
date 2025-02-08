@@ -4,7 +4,7 @@ from model import Product
 from repositories.productrepository import ProductRepository
 from translators.producttranslator import ProductTranslator
 from validators.validator import ProductValidator
-
+import logging
 
 class ProductService:
     repository = None
@@ -30,6 +30,7 @@ class ProductService:
     def findByName(self, name):
         products = ProductService.repository.findByName(name)
         productList = ProductService.translator.toProductsToList(products)
+        logging.info('product findByName ' + name)
         return productList
 
     def findAll():

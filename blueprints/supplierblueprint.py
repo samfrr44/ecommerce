@@ -6,7 +6,7 @@ import json
 
 supplier_bp = Blueprint('supplier_bp', __name__)
 
-@supplier_bp.route('/', methods=['POST'])
+@supplier_bp.route('/supplier', methods=['POST'])
 def createSupplierr():
     service = SupplierService()
     content_type = request.headers.get('Content-Type')

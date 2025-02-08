@@ -5,7 +5,7 @@ from blueprints.order_itemblueprint import orderitem_bp
 from blueprints.orderblueprint import order_bp
 from blueprints.productblueprint import product_bp
 from blueprints.supplierblueprint import supplier_bp
-import os
+import logging
 
 
 app = Flask(__name__)
@@ -23,4 +23,9 @@ app.register_blueprint(product_bp, url_prefix='/product')
 app.register_blueprint(supplier_bp, url_prefix='/supplier')
 
 if __name__ == '__main__':
+   logging.basicConfig(filename='myapp.log', level=logging.ERROR)
+   logging.info('Started')
    app.run(debug = True)
+   logging.info('Finished')
+
+   
